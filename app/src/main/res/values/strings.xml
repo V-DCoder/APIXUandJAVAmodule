@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Whertherly</string>
+    <string name="error_message">Something \nwent wrong \nat our end!</string>
+    <string name="retry">Retry</string>
+</resources>
