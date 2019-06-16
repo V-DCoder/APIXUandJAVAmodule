@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/background_white">
 
     <ProgressBar
         android:id="@+id/progress"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:padding="14dp"
+        android:layout_centerInParent="true"
         android:indeterminateDrawable="@drawable/progressbar_loding_drawable"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintLeft_toRightOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="14dp"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/error_container"
@@ -45,4 +44,36 @@
 
     </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/currentTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="56dp"
+        android:textColor="@color/text_black"
+        android:textSize="96sp"
+        tools:text="34" />
+
+    <TextView
+        android:id="@+id/currentCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/currentTemperature"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="62sp"
+        android:textColor="@color/text_blue"
+        android:textSize="36sp"
+        tools:text="Bangalore" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/forecast"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/currentCity"
+        android:background="@color/retry_button_text"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+</RelativeLayout>
