@@ -65,7 +65,7 @@
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:paddingRight="16dp"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     <ProgressBar

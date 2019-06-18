@@ -11,8 +11,8 @@ import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.util.Log
 import android.view.View
+import android.view.animation.TranslateAnimation
 import com.gojeck.apps.whertherly.R
 import com.gojeck.apps.whertherly.adapter.ForecastAdapter
 import com.gojeck.apps.whertherly.model.ForecastResponse
@@ -100,13 +100,30 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
 
     private fun onSuccess(it: ForecastResponse?) {
-        Log.w("sas", "ddit" + it?.current?.windKph)
+
         currentTemperature.text = getString(R.string.current_temperature, it?.current?.tempC)
         currentCity.text = it?.location?.name
-        var adapter = ForecastAdapter()
+        val adapter = ForecastAdapter()
         adapter.forecastday = it?.forecast?.forecastday
         forecast.adapter = adapter
 
+        animateRecyclerView()
+
+    }
+
+    private fun animateRecyclerView() {
+        forecast.visibility = View.VISIBLE
+
+        val animate = TranslateAnimation(
+            0f,
+            0f,
+            forecast.height.toFloat(),
+            0f
+        )
+        animate.duration = 500
+        animate.fillAfter = true
+
+        forecast.startAnimation(animate)
 
     }
 
