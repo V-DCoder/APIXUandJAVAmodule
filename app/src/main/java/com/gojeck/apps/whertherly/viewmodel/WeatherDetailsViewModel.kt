@@ -8,7 +8,6 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
-import android.util.Log
 import com.gojeck.apps.whertherly.model.ForecastResponse
 import com.gojeck.apps.whertherly.model.NetworkManager
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -49,10 +48,7 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
 
 
     override fun onLocationChanged(location: Location?) {
-        Log.w("onLocationChanged", "bearing " + location?.bearing)
-        Log.w("onLocationChanged", "longitude " + location?.longitude)
-        Log.w("onLocationChanged", "latitude " + location?.latitude)
-        Log.w("onLocationChanged", "provider " + location?.provider)
+
         compositeDisposable.add(
             NetworkManager().getForcast(
                 location?.latitude,
@@ -78,9 +74,10 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
         try {
             locationManager?.let {
                 val criteria = Criteria()
-                val provider = locationManager?.getBestProvider(criteria, false)
+                val lst = locationManager.getProviders(true)
+                locationManager.getBestProvider(criteria, true)
                 locationManager.requestLocationUpdates(
-                    provider,
+                    "network",
                     50000,
                     1000.0f,
                     this@WeatherDetailsViewModel
@@ -94,7 +91,7 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
     }
 
     fun onPermissionDenied() {
-
+        errorFound.postValue(true)
     }
 
 }

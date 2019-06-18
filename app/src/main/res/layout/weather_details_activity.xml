@@ -24,6 +24,7 @@
             android:textSize="54sp" />
 
         <Button
+            android:id="@+id/retry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="44dp"
@@ -65,7 +66,7 @@
         android:paddingLeft="16dp"
         android:paddingTop="16dp"
         android:paddingRight="16dp"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     <ProgressBar

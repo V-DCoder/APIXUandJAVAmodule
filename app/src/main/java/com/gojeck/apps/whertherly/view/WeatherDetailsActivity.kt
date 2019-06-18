@@ -32,8 +32,10 @@ class WeatherDetailsActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(WeatherDetailsViewModel::class.java)
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         initObservers()
+        retry.setOnClickListener { onRetry() }
 
     }
+
 
     private fun initObservers() {
         viewModel?.getErrorLiveData()?.observe(this, Observer { onErrorUI() })
@@ -50,17 +52,27 @@ class WeatherDetailsActivity : AppCompatActivity() {
     }
 
     private fun onErrorUI() {
-
+        error_container.visibility = View.VISIBLE
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun onRetry() {
+        error_container.visibility = View.GONE
         if (checkLocationPermissionGranted())
             viewModel?.getLocationUpdate(locationManager)
         else
             requestPermission()
-
     }
+
+    override fun onStart() {
+        super.onStart()
+        if (checkLocationPermissionGranted()) {
+            viewModel?.getLocationUpdate(locationManager)
+        }else {
+            requestPermission()
+            return
+        }
+    }
+
 
     private fun requestPermission() {
         ActivityCompat.requestPermissions(
@@ -100,7 +112,7 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
 
     private fun onSuccess(it: ForecastResponse?) {
-
+        error_container.visibility = View.GONE
         currentTemperature.text = getString(R.string.current_temperature, it?.current?.tempC)
         currentCity.text = it?.location?.name
         val adapter = ForecastAdapter()
