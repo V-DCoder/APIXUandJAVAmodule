@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class NetworkManager {
 
-    fun getForcast(location: String, days: Int): Single<ForecastResponse> {
+    fun getForcast(lat: Double?,long: Double?, days: Int): Single<ForecastResponse> {
 
         var retrofit =
             Retrofit.Builder().baseUrl("https://api.apixu.com/v1/")
@@ -17,6 +17,6 @@ class NetworkManager {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build()
         var caller = retrofit.create(APIProvider::class.java)
-        return caller.getCurrentForecast("7d01c65f0cf548e0bb8184008191006", "Mumbai", 7)
+        return caller.getCurrentForecast("7d01c65f0cf548e0bb8184008191006", "$lat,$long", days)
     }
 }
