@@ -11,22 +11,24 @@
         android:id="@+id/day"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_toStartOf="@id/temperature"
+        android:layout_toLeftOf="@id/temperature"
+        android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:textColor="@color/text_black"
         android:textSize="16sp"
-        android:layout_toLeftOf="@id/temperature"
-        android:layout_toStartOf="@id/temperature"
         tools:text="Tuesday" />
 
     <TextView
         android:id="@+id/temperature"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:textColor="@color/text_black"
         android:textSize="16sp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         tools:text="24C" />
 
 </RelativeLayout>

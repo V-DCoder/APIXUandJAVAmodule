@@ -12,7 +12,7 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.view.animation.TranslateAnimation
+import android.view.animation.AnimationUtils
 import com.gojeck.apps.whertherly.R
 import com.gojeck.apps.whertherly.adapter.ForecastAdapter
 import com.gojeck.apps.whertherly.model.ForecastResponse
@@ -67,10 +67,15 @@ class WeatherDetailsActivity : AppCompatActivity() {
         super.onStart()
         if (checkLocationPermissionGranted()) {
             viewModel?.getLocationUpdate(locationManager)
-        }else {
+        } else {
             requestPermission()
             return
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel?.removeListeners(locationManager)
     }
 
 
@@ -125,17 +130,8 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
     private fun animateRecyclerView() {
         forecast.visibility = View.VISIBLE
-
-        val animate = TranslateAnimation(
-            0f,
-            0f,
-            forecast.height.toFloat(),
-            0f
-        )
-        animate.duration = 500
-        animate.fillAfter = true
-
-        forecast.startAnimation(animate)
+        val slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up_animation)
+        forecast.startAnimation(slideUp)
 
     }
 

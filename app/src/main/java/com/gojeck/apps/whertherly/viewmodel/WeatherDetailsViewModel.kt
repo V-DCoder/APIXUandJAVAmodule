@@ -3,13 +3,12 @@ package com.gojeck.apps.whertherly.viewmodel
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
-import android.location.Criteria
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import com.gojeck.apps.whertherly.model.ForecastResponse
-import com.gojeck.apps.whertherly.model.NetworkManager
+import com.gojeck.apps.whertherly.network.NetworkRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -50,7 +49,7 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
     override fun onLocationChanged(location: Location?) {
 
         compositeDisposable.add(
-            NetworkManager().getForcast(
+            NetworkRepository().getForecast(
                 location?.latitude,
                 location?.longitude,
                 7
@@ -62,6 +61,7 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
                     showProgress.postValue(false)
                     locationForecast.postValue(it)
                 }, {
+                    it.printStackTrace()
                     showProgress.postValue(false)
                     errorFound.postValue(true)
                 })
@@ -73,11 +73,17 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
         showProgress.postValue(true)
         try {
             locationManager?.let {
-                val criteria = Criteria()
-                val lst = locationManager.getProviders(true)
-                locationManager.getBestProvider(criteria, true)
+                val provider =
+                    if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                        LocationManager.NETWORK_PROVIDER
+                    } else {
+                        LocationManager.GPS_PROVIDER
+                    }
+
+                locationManager.getProvider(LocationManager.NETWORK_PROVIDER)?.name
+                    ?: locationManager.getProvider(LocationManager.GPS_PROVIDER).name
                 locationManager.requestLocationUpdates(
-                    "network",
+                    provider,
                     50000,
                     1000.0f,
                     this@WeatherDetailsViewModel
@@ -92,6 +98,10 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
 
     fun onPermissionDenied() {
         errorFound.postValue(true)
+    }
+
+    fun removeListeners(locationManager: LocationManager?) {
+        locationManager?.removeUpdates(this@WeatherDetailsViewModel)
     }
 
 }

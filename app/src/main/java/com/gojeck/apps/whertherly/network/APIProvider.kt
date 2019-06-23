@@ -1,4 +1,4 @@
-package com.gojeck.apps.whertherly.repository
+package com.gojeck.apps.whertherly.network
 
 import com.gojeck.apps.whertherly.model.ForecastResponse
 import io.reactivex.Single

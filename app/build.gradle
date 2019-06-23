@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
-
+def APIXU_SECRET = '"' + APIXU_KEY + '"'
 android {
     androidExtensions {
         experimental = true
@@ -16,6 +16,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField 'String', 'APIXU_SECRET', APIXU_SECRET
     }
     buildTypes {
         release {
