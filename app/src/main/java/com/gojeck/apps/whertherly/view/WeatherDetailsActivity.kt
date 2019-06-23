@@ -118,14 +118,13 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
     private fun onSuccess(it: ForecastResponse?) {
         error_container.visibility = View.GONE
+        progress.visibility = View.GONE
         currentTemperature.text = getString(R.string.current_temperature, it?.current?.tempC)
         currentCity.text = it?.location?.name
         val adapter = ForecastAdapter()
         adapter.forecastday = it?.forecast?.forecastday
         forecast.adapter = adapter
-
         animateRecyclerView()
-
     }
 
     private fun animateRecyclerView() {

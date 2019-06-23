@@ -95,8 +95,6 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
         } catch (securityException: SecurityException) {
             securityException.printStackTrace()
         }
-
-
     }
 
     fun onPermissionDenied() {
