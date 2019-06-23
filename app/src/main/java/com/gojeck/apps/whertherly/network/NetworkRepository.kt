@@ -10,7 +10,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class NetworkRepository : ForecastRepository {
 
-
         private val retrofit =
             Retrofit.Builder().baseUrl("https://api.apixu.com/v1/")
                 .addConverterFactory(GsonConverterFactory.create())

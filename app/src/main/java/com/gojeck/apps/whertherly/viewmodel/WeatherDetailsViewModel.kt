@@ -48,6 +48,10 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
 
     override fun onLocationChanged(location: Location?) {
 
+        getForecastForLocation(location)
+    }
+
+    private fun getForecastForLocation(location: Location?) {
         compositeDisposable.add(
             NetworkRepository().getForecast(
                 location?.latitude,
