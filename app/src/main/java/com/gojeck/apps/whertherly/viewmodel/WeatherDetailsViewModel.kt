@@ -74,10 +74,13 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
         try {
             locationManager?.let {
                 val provider =
-                    if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                        LocationManager.NETWORK_PROVIDER
-                    } else {
-                        LocationManager.GPS_PROVIDER
+                    when {
+                        locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER) -> LocationManager.NETWORK_PROVIDER
+                        locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) -> LocationManager.GPS_PROVIDER
+                        else -> {
+                            errorFound.postValue(true)
+                            return
+                        }
                     }
 
                 locationManager.getProvider(LocationManager.NETWORK_PROVIDER)?.name
@@ -102,6 +105,11 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
 
     fun removeListeners(locationManager: LocationManager?) {
         locationManager?.removeUpdates(this@WeatherDetailsViewModel)
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        compositeDisposable.dispose()
     }
 
 }
