@@ -61,15 +61,19 @@ class WeatherDetailsViewModel : ViewModel(), LocationListener {
                 Schedulers.io()
             )
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({
-                    showProgress.postValue(false)
-                    locationForecast.postValue(it)
+                .subscribe({ onDataReceived(it)
                 }, {
-                    it.printStackTrace()
-                    showProgress.postValue(false)
-                    errorFound.postValue(true)
+                    onErrorReceived(it)
                 })
         )
+    }
+
+    private fun onErrorReceived(it: Throwable?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    private fun onDataReceived(it: ForecastResponse?) {
+
     }
 
 

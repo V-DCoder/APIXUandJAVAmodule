@@ -10,6 +10,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -28,6 +29,7 @@ class WeatherDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        packageManager.getInstalledPackages(PackageManager.GET_META_DATA)
         setContentView(R.layout.weather_details_activity)
         viewModel = ViewModelProviders.of(this).get(WeatherDetailsViewModel::class.java)
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
